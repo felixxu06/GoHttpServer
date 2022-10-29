@@ -1,14 +1,18 @@
 package main
 
-import "net/http"
-import "fmt"
-import "io"
-
+import (
+		"net/http"
+		"fmt"
+		"io"
+		"elmo.com/core"
+	)
 
 func main()  {
-	http.HandleFunc("/", rootHandler)
-	http.HandleFunc("/greeting", greetingHanlder)
-	http.ListenAndServe(":3333", nil)
+	var server core.GoRouter = new(core.Routers)
+	server.Register("/", rootHandler)
+	server.Register("/greeting", greetingHanlder)
+
+	server.Start(3333)
 }
 
 func rootHandler(resp http.ResponseWriter, req *http.Request)  {
